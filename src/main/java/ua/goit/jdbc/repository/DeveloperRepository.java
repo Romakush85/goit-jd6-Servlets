@@ -3,11 +3,12 @@ package ua.goit.jdbc.repository;
 import ua.goit.jdbc.config.DatabaseManagerConnector;
 import ua.goit.jdbc.dao.DeveloperDao;
 
+import java.beans.Statement;
 import java.sql.*;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class DeveloperRepository implements Repository<DeveloperDao>{
 
@@ -24,7 +25,7 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
     }
 
     @Override
-    public void save(DeveloperDao developer) {
+    public DeveloperDao save(DeveloperDao developer) {
         try(Connection connection = connector.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT)) {
             statement.setInt(1, developer.getDevId());
@@ -37,6 +38,7 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return developer;
     }
 
     @Override
@@ -45,17 +47,19 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
     }
 
     @Override
-    public DeveloperDao findById(Integer id) throws SQLException {
-        ResultSet resultSet = null;
+    public Optional<DeveloperDao> findById(Integer id)  {
+        DeveloperDao developerDao = null;
         try(Connection connection = connector.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
-            resultSet = statement.executeQuery();
-            return Objects.isNull(resultSet) ? null : convert(resultSet);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                developerDao = convert(resultSet);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("");
         }
-        return null;
+        return Optional.of(developerDao);
     }
 
     @Override

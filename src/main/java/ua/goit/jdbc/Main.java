@@ -1,34 +1,39 @@
 package ua.goit.jdbc;
 
+import ua.goit.jdbc.command.*;
 import ua.goit.jdbc.config.DatabaseManagerConnector;
 import ua.goit.jdbc.config.PropertiesConfig;
-import ua.goit.jdbc.dao.DeveloperDao;
+import ua.goit.jdbc.controller.ProjectManagementSystem;
 import ua.goit.jdbc.repository.DeveloperRepository;
-
-import java.sql.Connection;
+import ua.goit.jdbc.service.DeveloperService;
+import ua.goit.jdbc.service.converter.DeveloperConverter;
+import ua.goit.jdbc.view.Console;
+import ua.goit.jdbc.view.View;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.Properties;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
         PropertiesConfig propertiesConfig = new PropertiesConfig();
         Properties properties = propertiesConfig.loadProperties("application.properties");
+
         DatabaseManagerConnector dbManager = new DatabaseManagerConnector(properties, "postgres", "2362");
+        Scanner scanner = new Scanner(System.in);
+        View view = new Console(scanner);
+
 
         DeveloperRepository developerRepository = new DeveloperRepository(dbManager);
-        DeveloperDao developerDao = new DeveloperDao();
-        developerDao.setDevId(100);
-        developerDao.setFirstName("Roman");
-        developerDao.setLastName("Kushnir");
-        developerDao.setGender("male");
-        developerDao.setSalary(4000);
-        developerDao.setBirthDate(new Date());
+        DeveloperConverter developerConverter = new DeveloperConverter();
+        DeveloperService developerService = new DeveloperService(developerRepository, developerConverter);
 
-        developerRepository.save(developerDao);
+        List<Command> commands = new ArrayList<>();
+        commands.add(new Help(view));
+        commands.add(new Exit(view));
+        commands.add(new CreateDeveloper(view, developerService));
+        commands.add(new FindDeveloperById(view, developerService));
 
-        DeveloperDao savedDeveloper = developerRepository.findById(100);
-        System.out.println(savedDeveloper);
+        ProjectManagementSystem projectManagementSystem = new ProjectManagementSystem(view, commands);
 
+        projectManagementSystem.run();
     }
 }

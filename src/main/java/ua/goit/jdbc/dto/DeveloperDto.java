@@ -69,4 +69,17 @@ public class DeveloperDto {
     public void setSalary(Integer salary) {
         this.salary = salary;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("DeveloperDto{");
+        sb.append("devId=").append(devId);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", birthDate=").append(birthDate);
+        sb.append(", gender='").append(gender).append('\'');
+        sb.append(", salary=").append(salary);
+        sb.append('}');
+        return sb.toString();
+    }
 }
