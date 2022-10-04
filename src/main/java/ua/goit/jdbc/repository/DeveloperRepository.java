@@ -20,6 +20,24 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
     private static final String SELECT_BY_ID = "SELECT dev_id, first_name, last_name, birth_date, gender, salary FROM "
         + "developers WHERE dev_id = ?";
 
+    private static final String SELECT_ALL_BY_PROJECT_ID = "SELECT d.dev_id, d.first_name, d.last_name, d.birth_date," +
+        " d.gender, d.salary FROM developers d INNER JOIN developers_projects dp ON dp.dev_id = d.dev_id" +
+            " WHERE dp.project_id = ?";
+
+    private static final String SELECT_ALL_WITH_MIDDLE_LEVEL = "SELECT DISTINCT d.dev_id, d.first_name, d.last_name, " +
+        "d.birth_date, d.gender, d.salary FROM developers d " +
+            "INNER JOIN developers_skills ds ON ds.dev_id = d.dev_id " +
+            "INNER JOIN skills s ON s.skill_id = ds.skill_id " +
+            "WHERE s.level = 'Middle'";
+    private static final String SELECT_ALL_WITH_JAVA_LANGUAGE = "SELECT DISTINCT d.dev_id, d.first_name, d.last_name, " +
+            "d.birth_date, d.gender, d.salary FROM developers d " +
+            "INNER JOIN developers_skills ds ON ds.dev_id = d.dev_id " +
+            "INNER JOIN skills s ON s.skill_id = ds.skill_id " +
+            "WHERE s.language = 'Java'";
+    private static final String GET_TOTAL_SALARY_BY_PROJECT_ID = "SELECT SUM(d.salary) FROM developers d " +
+            "INNER JOIN developers_projects dp ON dp.dev_id = d.dev_id WHERE dp.project_id = ?";
+
+
     public  DeveloperRepository(DatabaseManagerConnector connector) {
         this.connector = connector;
     }
