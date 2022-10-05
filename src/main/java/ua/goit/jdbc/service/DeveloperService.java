@@ -6,7 +6,9 @@ import ua.goit.jdbc.repository.DeveloperRepository;
 import ua.goit.jdbc.service.converter.DeveloperConverter;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class DeveloperService {
     private final DeveloperRepository developerRepository;
@@ -26,5 +28,23 @@ public class DeveloperService {
         Optional<DeveloperDao> developerDao = developerRepository.findById(id);
         return developerDao.map(dao -> developerConverter.from(dao));
     }
+
+    public List<DeveloperDto> findAllByProjectId(Integer id) {
+        return developerRepository.findAllByProjectId(id).stream().map(dao -> developerConverter.from(dao))
+                .collect(Collectors.toList());
+    }
+
+    public List<DeveloperDto> findAllJavaDevelopers() {
+        return developerRepository.findAllJavaDevelopers().stream().map(dao -> developerConverter.from(dao))
+                .collect(Collectors.toList());
+    }
+
+    public List<DeveloperDto> findAllMiddleDevelopers() {
+        return developerRepository.findAllMiddleDevelopers().stream().map(dao -> developerConverter.from(dao))
+                .collect(Collectors.toList());
+    }
+
+
+
 
 }

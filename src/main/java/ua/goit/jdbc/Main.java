@@ -31,6 +31,10 @@ public class Main {
         commands.add(new Exit(view));
         commands.add(new CreateDeveloper(view, developerService));
         commands.add(new FindDeveloperById(view, developerService));
+        commands.add(new FindAllByProjectId(view, developerService));
+        commands.add(new FindJavaDevelopers(view, developerService));
+        commands.add(new FindMiddleDevelopers(view, developerService));
+        commands.add(new GetSalaryByProjectId(view, developerRepository));
 
         ProjectManagementSystem projectManagementSystem = new ProjectManagementSystem(view, commands);
 

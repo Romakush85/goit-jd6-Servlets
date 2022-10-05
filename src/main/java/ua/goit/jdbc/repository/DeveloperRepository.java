@@ -71,7 +71,9 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
             try(ResultSet resultSet = statement.executeQuery()) {
-                developerDao = convert(resultSet);
+                while(resultSet.next()) {
+                    developerDao = convert(resultSet);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,16 +88,85 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
         return developers;
     }
 
+    public List<DeveloperDao> findAllByProjectId(Integer id) {
+        List<DeveloperDao> developers = new ArrayList<>();
+        try(Connection connection = connector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALL_BY_PROJECT_ID)) {
+            statement.setInt(1, id);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while(resultSet.next()){
+                    convert(resultSet);
+                    developers.add(convert(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("");
+        }
+        return developers;
+    }
+
+    public List<DeveloperDao> findAllJavaDevelopers() {
+        List<DeveloperDao> developers = new ArrayList<>();
+        try(Connection connection = connector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALL_WITH_JAVA_LANGUAGE)) {
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while(resultSet.next()){
+                    convert(resultSet);
+                    developers.add(convert(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("");
+        }
+        return developers;
+    }
+
+    public List<DeveloperDao> findAllMiddleDevelopers() {
+        List<DeveloperDao> developers = new ArrayList<>();
+        try(Connection connection = connector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALL_WITH_MIDDLE_LEVEL)) {
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while(resultSet.next()){
+                    convert(resultSet);
+                    developers.add(convert(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("");
+        }
+        return developers;
+    }
+
+    public Integer getTotalSalaryByProjectId(Integer id) {
+        Integer salary = null;
+        try(Connection connection = connector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_TOTAL_SALARY_BY_PROJECT_ID)) {
+            statement.setInt(1, id);
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while(resultSet.next()){
+                    salary = resultSet.getInt("sum");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Can't get salary");
+        }
+        return salary;
+    }
+
     private DeveloperDao convert(ResultSet resultSet)  throws SQLException {
         DeveloperDao developerDao = new DeveloperDao();
-        while(resultSet.next()){
+
             developerDao.setDevId(resultSet.getInt("dev_id"));
             developerDao.setFirstName(resultSet.getString("first_name"));
             developerDao.setLastName(resultSet.getString("last_name"));
             developerDao.setGender(resultSet.getString("gender"));
             developerDao.setSalary(resultSet.getInt("salary"));
             developerDao.setBirthDate(resultSet.getDate("birth_date"));
-        }
+
         return developerDao;
     }
 }
