@@ -5,8 +5,11 @@ import ua.goit.jdbc.config.DatabaseManagerConnector;
 import ua.goit.jdbc.config.PropertiesConfig;
 import ua.goit.jdbc.controller.ProjectManagementSystem;
 import ua.goit.jdbc.repository.DeveloperRepository;
+import ua.goit.jdbc.repository.ProjectRepository;
 import ua.goit.jdbc.service.DeveloperService;
+import ua.goit.jdbc.service.ProjectService;
 import ua.goit.jdbc.service.converter.DeveloperConverter;
+import ua.goit.jdbc.service.converter.ProjectConverter;
 import ua.goit.jdbc.view.Console;
 import ua.goit.jdbc.view.View;
 import java.sql.SQLException;
@@ -26,6 +29,10 @@ public class Main {
         DeveloperConverter developerConverter = new DeveloperConverter();
         DeveloperService developerService = new DeveloperService(developerRepository, developerConverter);
 
+        ProjectRepository projectRepository = new ProjectRepository(dbManager);
+        ProjectConverter projectConverter = new ProjectConverter();
+        ProjectService projectService = new ProjectService(projectRepository, projectConverter);
+
         List<Command> commands = new ArrayList<>();
         commands.add(new Help(view));
         commands.add(new Exit(view));
@@ -35,6 +42,8 @@ public class Main {
         commands.add(new FindJavaDevelopers(view, developerService));
         commands.add(new FindMiddleDevelopers(view, developerService));
         commands.add(new GetSalaryByProjectId(view, developerRepository));
+        commands.add(new FindAllProjects(view, projectService));
+        commands.add(new FindAllProjectsWithNumberOfDevelopers(view, projectService, developerService));
 
         ProjectManagementSystem projectManagementSystem = new ProjectManagementSystem(view, commands);
 

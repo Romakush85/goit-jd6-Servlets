@@ -112,7 +112,6 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_WITH_JAVA_LANGUAGE)) {
             try(ResultSet resultSet = statement.executeQuery()) {
                 while(resultSet.next()){
-                    convert(resultSet);
                     developers.add(convert(resultSet));
                 }
             }
@@ -129,7 +128,6 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_WITH_MIDDLE_LEVEL)) {
             try(ResultSet resultSet = statement.executeQuery()) {
                 while(resultSet.next()){
-                    convert(resultSet);
                     developers.add(convert(resultSet));
                 }
             }

@@ -25,5 +25,7 @@ public class Help implements Command{
         view.write(String.format("Enter %s to find Java developers", FindJavaDevelopers.GET_JAVA_DEVELOPERS));
         view.write(String.format("Enter %s to find Java developers", FindMiddleDevelopers.GET_MIDDLE_DEVELOPERS));
         view.write(String.format("Enter %s to get total salary by project", GetSalaryByProjectId.GET_SALARY_BY_PROJECT_ID));
+        view.write(String.format("Enter %s to find all projects", FindAllProjects.FIND_ALL));
+        view.write(String.format("Enter %s to find all projects with number of developers", FindAllProjectsWithNumberOfDevelopers.FIND_ALL_WITH_DEV_NUMBER));
     }
 }

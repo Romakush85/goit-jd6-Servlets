@@ -50,12 +50,13 @@ public class ProjectDto {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ProjectDao{");
+        final StringBuilder sb = new StringBuilder("ProjectDao:");
         sb.append("projectId=").append(projectId);
         sb.append(", name='").append(name).append('\'');
-        sb.append(", customerId=").append(customerId);
+        if(customerId != null) {
+            sb.append(", customerId=").append(customerId);
+        }
         sb.append(", cost=").append(cost);
-        sb.append('}');
         return sb.toString();
     }
 }
