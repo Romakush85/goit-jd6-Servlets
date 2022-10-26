@@ -24,6 +24,15 @@ public class DeveloperService {
         return developerConverter.from(developerDao);
     }
 
+    public boolean update(DeveloperDto developerDto) {
+        if(developerRepository.findById(developerDto.getDevId()) != null) {
+            DeveloperDao developerToUpdate = developerConverter.to(developerDto);
+            developerRepository.update(developerToUpdate);
+            return true;
+        }
+        return false;
+    }
+
     public Optional<DeveloperDto> findById(Integer id)  {
         Optional<DeveloperDao> developerDao = developerRepository.findById(id);
         return developerDao.map(dao -> developerConverter.from(dao));
@@ -44,7 +53,11 @@ public class DeveloperService {
                 .collect(Collectors.toList());
     }
 
-
+    public List<DeveloperDto> findAll() {
+        return developerRepository.findAll().stream().map(dao -> developerConverter.from(dao))
+                .collect(Collectors.toList());
+    }
 
 
 }
+

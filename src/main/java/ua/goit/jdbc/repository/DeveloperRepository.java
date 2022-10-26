@@ -2,6 +2,7 @@ package ua.goit.jdbc.repository;
 
 import ua.goit.jdbc.config.DatabaseManagerConnector;
 import ua.goit.jdbc.dao.DeveloperDao;
+import ua.goit.jdbc.dao.ProjectDao;
 
 import java.beans.Statement;
 import java.sql.*;
@@ -16,6 +17,9 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
 
     private static final String INSERT = "INSERT INTO developers (dev_id, first_name, last_name, birth_date, gender, salary)" +
             " VALUES (?, ?, ?, ?, ?, ?)";
+
+    private static final String UPDATE = "UPDATE developers SET first_name = ?, last_name = ?, birth_date = ?, gender = ?, " +
+            "salary = ?  WHERE dev_id = ?";
 
     private static final String SELECT_BY_ID = "SELECT dev_id, first_name, last_name, birth_date, gender, salary FROM "
         + "developers WHERE dev_id = ?";
@@ -36,6 +40,10 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
             "WHERE s.language = 'Java'";
     private static final String GET_TOTAL_SALARY_BY_PROJECT_ID = "SELECT SUM(d.salary) FROM developers d " +
             "INNER JOIN developers_projects dp ON dp.dev_id = d.dev_id WHERE dp.project_id = ?";
+
+    private static final String SELECT_ALL = "SELECT dev_id, first_name, last_name, birth_date, gender, " +
+            "salary FROM developers";
+    private static final String DELETE_BY_ID = "DELETE FROM developers WHERE dev_id=?";
 
 
     public  DeveloperRepository(DatabaseManagerConnector connector) {
@@ -61,7 +69,20 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
 
     @Override
     public void update(DeveloperDao developer) {
+        try(Connection connection = connector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE)) {
+            statement.setString(1, developer.getFirstName());
+            statement.setString(2, developer.getLastName());
+            statement.setDate(3, new Date(developer.getBirthDate().getTime()));
+            statement.setString(4, developer.getGender());
+            statement.setInt(5, developer.getSalary());
+            statement.setInt(6, developer.getDevId());
+            statement.execute();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Can't update developer");
+        }
     }
 
     @Override
@@ -79,12 +100,34 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
             e.printStackTrace();
             throw new RuntimeException("");
         }
-        return Optional.of(developerDao);
+        return Optional.ofNullable(developerDao);
+    }
+
+    public void deleteById(Integer id) {
+        try(Connection connection = connector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID)) {
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Can't delete developer");
+        }
     }
 
     @Override
     public List<DeveloperDao> findAll() {
         List<DeveloperDao> developers = new ArrayList<>();
+        try(Connection connection = connector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
+            try(ResultSet resultSet = statement.executeQuery()) {
+                while(resultSet.next()){
+                    developers.add(convert(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Can't get developers");
+        }
         return developers;
     }
 

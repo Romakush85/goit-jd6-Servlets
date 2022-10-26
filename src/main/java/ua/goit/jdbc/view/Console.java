@@ -15,7 +15,8 @@ public class Console implements View{
     }
 
     @Override
-    public void write(String message) {
+    public Runnable write(String message) {
         System.out.println(message);
+        return null;
     }
 }
