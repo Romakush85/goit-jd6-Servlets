@@ -11,8 +11,8 @@ import java.util.Optional;
 public class SkillRepository implements Repository<SkillDao>{
     private final DatabaseManagerConnector connector;
 
-    private final static String INSERT = "INSERT INTO skills (skill_id, language, level) " +
-            "VALUES (?, ?, ?)";
+    private final static String INSERT = "INSERT INTO skills ( language, level) " +
+            "VALUES (?, ?)";
     private final static String UPDATE = "UPDATE skills SET  language = ?, " +
             "level = ? WHERE skill_id = ?";
     private final static String SELECT_BY_ID = "SELECT skill_id, language, level FROM skills WHERE " +
@@ -28,9 +28,8 @@ public class SkillRepository implements Repository<SkillDao>{
     public SkillDao save(SkillDao skill) {
         try(Connection connection = connector.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-            statement.setInt(1, skill.getSkillId());
-            statement.setString(2, skill.getLanguage());
-            statement.setString(3, skill.getLevel());
+            statement.setString(1, skill.getLanguage());
+            statement.setString(2, skill.getLevel());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -8,6 +8,6 @@ public interface Repository<T> {
     T save(T entity);
     void update(T entity);
     Optional<T> findById(Integer id) throws SQLException;
-    List<T> findAll();
+    List<T> findAll() throws SQLException;
 
 }

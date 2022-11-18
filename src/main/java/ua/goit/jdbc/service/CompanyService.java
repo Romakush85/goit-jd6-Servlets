@@ -1,8 +1,9 @@
-package ua.goit.jdbc.service.converter;
+package ua.goit.jdbc.service;
 
 import ua.goit.jdbc.dao.CompanyDao;
 import ua.goit.jdbc.dto.CompanyDto;
 import ua.goit.jdbc.repository.CompanyRepository;
+import ua.goit.jdbc.service.converter.CompanyConverter;
 
 import java.util.List;
 import java.util.Optional;

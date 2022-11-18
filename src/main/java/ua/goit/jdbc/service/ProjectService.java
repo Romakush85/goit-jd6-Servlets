@@ -1,6 +1,7 @@
 package ua.goit.jdbc.service;
 
 import ua.goit.jdbc.dao.ProjectDao;
+import ua.goit.jdbc.dto.DeveloperDto;
 import ua.goit.jdbc.dto.ProjectDto;
 import ua.goit.jdbc.repository.ProjectRepository;
 import ua.goit.jdbc.service.converter.ProjectConverter;
@@ -26,7 +27,10 @@ public class ProjectService {
         if(projectRepository.findById(projectDto.getProjectId()).isPresent()) {
             ProjectDao projectToUpdate = projectConverter.to(projectDto);
             projectRepository.update(projectToUpdate);
-            return true;
+            ProjectDto updatedProject = findById(projectDto.getProjectId()).orElseGet(() ->  null);
+            if(projectDto.equals(updatedProject)) {
+                return true;
+            } else {return false;}
         }
         return false;
     }
@@ -36,7 +40,7 @@ public class ProjectService {
         return projectDao.map(dao -> projectConverter.from(dao));
     }
 
-    public List<ProjectDto> findAllProjects() {
+    public List<ProjectDto> findAll() {
         return projectRepository.findAll().stream().map(dao -> projectConverter.from(dao))
                 .collect(Collectors.toList());
     }

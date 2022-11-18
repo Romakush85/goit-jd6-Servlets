@@ -1,0 +1,41 @@
+[33mcommit c79d5374a12dff7a50958823b89610282c9d5845[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Roman Kushnir <gomakush@gmail.com>
+Date:   Wed Nov 16 21:41:58 2022 +0200
+
+    first commit
+
+[33mcommit 0c5b781a2bd999e362c553b68893a81be186f37c[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Roman Kushnir <gomakush@gmail.com>
+Date:   Wed Oct 26 20:00:55 2022 +0300
+
+    Added crud commands for all entities, removed many to many relations entities, username and password set as env.variables
+
+[33mcommit 6d62729dfc3b3a9f81907e046334a2e068afd0f6[m
+Author: Roman Kushnir <gomakush@gmail.com>
+Date:   Thu Oct 6 14:30:55 2022 +0300
+
+    Added methods to Project repository and project service
+
+[33mcommit 6a5ef0c02a24d57c5f520ab2fdd611234702b568[m
+Author: Roman Kushnir <gomakush@gmail.com>
+Date:   Wed Oct 5 22:02:46 2022 +0300
+
+    Added methods in developer service and repository
+
+[33mcommit 0fb5eabccfd0f4cdbed1bbc69ed2a97c86cfa5e3[m
+Author: Roman Kushnir <gomakush@gmail.com>
+Date:   Tue Oct 4 18:44:02 2022 +0300
+
+    Added sql queries
+
+[33mcommit 70bedc549e9e047b3decf6a29850d4ef9e19d6a2[m
+Author: Roman Kushnir <gomakush@gmail.com>
+Date:   Tue Oct 4 14:56:32 2022 +0300
+
+    Implemented post and get methods for developer class
+
+[33mcommit 96f02a24374af088106996e3499892b8f2f8931a[m
+Author: Roman Kushnir <gomakush@gmail.com>
+Date:   Fri Sep 30 12:34:16 2022 +0300
+
+    Initial commit

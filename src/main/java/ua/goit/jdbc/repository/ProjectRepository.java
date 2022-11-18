@@ -13,8 +13,8 @@ public class ProjectRepository implements Repository<ProjectDao>{
     private final DatabaseManagerConnector connector;
 
     private final static String FIND_ALL = "SELECT project_id, project_name, customer_id, cost FROM projects;";
-    private final static String INSERT = "INSERT INTO projects (project_id, project_name, customer_id, cost) " +
-            "VALUES (?, ?, ?, ?)";
+    private final static String INSERT = "INSERT INTO projects (project_name, customer_id, cost) " +
+            "VALUES (?, ?, ?)";
     private final static String FIND_BY_ID = "SELECT project_id, project_name, customer_id, cost FROM projects " +
             "WHERE project_id = ?";
     private final static String UPDATE_BY_ID = "UPDATE projects SET project_name = ?, customer_id = ?, cost = ? " +
@@ -29,10 +29,9 @@ public class ProjectRepository implements Repository<ProjectDao>{
     public ProjectDao save(ProjectDao project) {
         try(Connection connection = connector.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-            statement.setInt(1, project.getProjectId());
-            statement.setString(2, project.getName());
-            statement.setInt(3, project.getCustomerId());
-            statement.setInt(4, project.getCost());
+            statement.setString(1, project.getName());
+            statement.setInt(2, project.getCustomerId());
+            statement.setInt(3, project.getCost());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

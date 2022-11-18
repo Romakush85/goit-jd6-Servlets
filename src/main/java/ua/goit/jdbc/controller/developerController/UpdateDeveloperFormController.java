@@ -1,4 +1,4 @@
-package ua.goit.jdbc.controller;
+package ua.goit.jdbc.controller.developerController;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

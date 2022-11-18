@@ -28,7 +28,10 @@ public class SkillService {
         if(skillRepository.findById(skillDto.getSkillId()) != null) {
             SkillDao skillToUpdate = skillConverter.to(skillDto);
             skillRepository.update(skillToUpdate);
-            return true;
+            SkillDto updatedSkill = findById(skillDto.getSkillId()).orElseGet(() ->  null);
+            if(skillDto.equals(updatedSkill)) {
+                return true;
+            } else {return false;}
         }
         return false;
     }

@@ -10,18 +10,31 @@
     </head>
     <body>
      <c:import url="${contextPath}/WEB-INF/jsp/navbar.jsp"/>
-        <form action="/developers" method="post">
-                <label for="firstName"> First name:</label>
-                <input type="text" id="firstName" name="firstName"><br>
-                <label for="lastName"> Last name:</label>
-                <input type="text" id="lastName" name="lastName"><br>
-                <label for="birthDate"> Birth date, dd-MM-yyyy:</label>
-                <input type="text" id="birthDate" name="birthDate"><br>
-                <label for="gender"> Gender:</label>
-                <input type="text" id="gender" name="gender"><br>
-                <label for="salary"> Salary:</label>
-                <input type="number" id="salary" name="salary"><br>
-                <button type="submit" name="command" value="create">Create developer</button>
-        </form>
+     <h5>Create developer</h5>
+        <div style ="margin-top:10px;margin-left:10px; max-width: 30%;display:flex;flex-direction:column;">
+                  <form action="/developers" method="post">
+                    <div style ="display:flex;justify-content: space-between;">
+                         <label for="firstName"> First name:</label>
+                         <input style ="margin-top:5px;margin-bottom:5px;" type="text" id="firstName" name="firstName">
+                    </div>
+                    <div style ="display:flex;justify-content: space-between;">
+                         <label for="lastName"> Last name:</label>
+                         <input style ="margin-top:5px;margin-bottom:5px;" type="text" id="lastName" name="lastName">
+                    </div>
+                    <div style ="display:flex;justify-content: space-between;">
+                         <label for="birthDate"> Birth date, yyyy-MM-dd:</label>
+                         <input style ="margin-top:5px;margin-bottom:5px;" type="text" id="birthDate" name="birthDate">
+                    </div>
+                    <div style ="display:flex;justify-content: space-between;">
+                         <label for="gender"> Gender:</label>
+                         <input style ="margin-top:5px;margin-bottom:5px;" type="text" id="gender" name="gender">
+                    </div>
+                    <div style ="display:flex;justify-content: space-between;">
+                         <label for="salary"> Salary:</label>
+                         <input style ="margin-top:5px;margin-bottom:5px;" type="number" id="salary" name="salary">
+                    </div>
+                         <button type="submit" name="command" value="create">Create</button>
+                  </form>
+                </div>
     </body>
 </html>

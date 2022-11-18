@@ -49,6 +49,28 @@ public class ProjectDto {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProjectDto that = (ProjectDto) o;
+
+        if (projectId != null ? !projectId.equals(that.projectId) : that.projectId != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (customerId != null ? !customerId.equals(that.customerId) : that.customerId != null) return false;
+        return cost != null ? cost.equals(that.cost) : that.cost == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = projectId != null ? projectId.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (customerId != null ? customerId.hashCode() : 0);
+        result = 31 * result + (cost != null ? cost.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("ProjectDao:");
         sb.append("projectId=").append(projectId);

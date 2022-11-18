@@ -1,6 +1,9 @@
 package ua.goit.jdbc.dto;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.Objects;
 
 public class DeveloperDto {
     Integer devId;
@@ -81,5 +84,19 @@ public class DeveloperDto {
         sb.append(", salary=").append(salary);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeveloperDto that = (DeveloperDto) o;
+        return (devId == that.devId) && (firstName.equals(that.firstName)) && (lastName.equals(that.lastName)) &&
+                (birthDate.equals(that.birthDate)) && (gender.equals(that.gender)) && (salary.equals(that.salary));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(devId, firstName, lastName, birthDate, gender, salary);
     }
 }

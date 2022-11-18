@@ -1,12 +1,12 @@
-package ua.goit.jdbc.controller;
+package ua.goit.jdbc.controller.developerController;
 
 import ua.goit.jdbc.config.DatabaseManagerConnector;
 import ua.goit.jdbc.config.PropertiesConfig;
+import ua.goit.jdbc.dto.CompanyDto;
 import ua.goit.jdbc.dto.DeveloperDto;
 import ua.goit.jdbc.repository.DeveloperRepository;
 import ua.goit.jdbc.service.DeveloperService;
 import ua.goit.jdbc.service.converter.DeveloperConverter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -38,10 +39,15 @@ public class DeveloperController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer devId =Integer.parseInt(req.getParameter("devId"));
-        Optional<DeveloperDto> optional = developerService.findById(devId);
-        req.setAttribute("developer", optional.orElseGet(() -> {return null;}));
-        req.getRequestDispatcher("/WEB-INF/jsp/developer/findDeveloper.jsp").forward(req, resp);
+        String command = req.getParameter("command");
+        switch (command) {
+            case "find":
+                findDeveloperById(req, resp);
+                break;
+            case "findAll":
+                findAllDevelopers(req, resp);
+                break;
+        }
     }
 
     @Override
@@ -49,17 +55,32 @@ public class DeveloperController extends HttpServlet {
         String command = req.getParameter("command");
         switch (command) {
             case "create":
-                create(req, resp);
+                createDeveloper(req, resp);
                 break;
             case "update":
-                update(req, resp);
+                updateDeveloper(req, resp);
                 break;
             case "delete":
-                delete(req, resp);
+                deleteDeveloper(req, resp);
                 break;
-        }    }
+        }
+    }
 
-    protected void create(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void findDeveloperById(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer devId =Integer.parseInt(req.getParameter("devId"));
+        Optional<DeveloperDto> optional = developerService.findById(devId);
+        req.setAttribute("developer", optional.orElseGet(() -> {return null;}));
+        req.getRequestDispatcher("/WEB-INF/jsp/developer/findDeveloper.jsp").forward(req, resp);
+    }
+
+    protected void findAllDevelopers(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<DeveloperDto> developers = developerService.findAll();
+        System.out.println(developers);
+        req.setAttribute("developers", developers);
+        req.getRequestDispatcher("/WEB-INF/jsp/developer/findAllDevelopers.jsp").forward(req, resp);
+    }
+
+    protected void createDeveloper(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         Date date = null;
@@ -80,7 +101,7 @@ public class DeveloperController extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/jsp/developer/savedDeveloper.jsp").forward(req, resp);
     }
 
-    private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void updateDeveloper(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("birthDate"));
@@ -102,7 +123,7 @@ public class DeveloperController extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/jsp/developer/updateDeveloperForm.jsp").forward(req, resp);
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void deleteDeveloper(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer devId = Integer.parseInt(req.getParameter("devId"));
         if(developerService.findById(devId).isPresent()){
             developerRepository.deleteById(devId);

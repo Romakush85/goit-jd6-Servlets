@@ -39,6 +39,26 @@ public class SkillDto {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SkillDto skillDto = (SkillDto) o;
+
+        if (skillId != null ? !skillId.equals(skillDto.skillId) : skillDto.skillId != null) return false;
+        if (language != null ? !language.equals(skillDto.language) : skillDto.language != null) return false;
+        return level != null ? level.equals(skillDto.level) : skillDto.level == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = skillId != null ? skillId.hashCode() : 0;
+        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = 31 * result + (level != null ? level.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("SkillDao{");
         sb.append("skillId=").append(skillId);

@@ -10,11 +10,12 @@
     </head>
     <body>
         <c:import url="${contextPath}/WEB-INF/jsp/navbar.jsp"/>
-        <div>
+        <h5>Delete developer</h5>
+        <div style ="margin-top:10px;margin-left:10px;">
             <form action="/developers" method="post">
-                   <label for="devId"> Developer ID <label>
-                   <input type="text" id="devId" name="devId"><br>
-                   <button type="submit" name="command" value="delete">Delete developer</button>
+                   <label for="devId"> Developer ID: <label>
+                   <input type="text" id="devId" name="devId">
+                   <button type="submit" name="command" value="delete">Delete</button>
             </form>
         </div>
         <c:if test="${not empty result}">

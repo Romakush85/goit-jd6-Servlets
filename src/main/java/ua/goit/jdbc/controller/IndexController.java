@@ -1,4 +1,4 @@
-package ua.goit.jdbc.controller.developerController;
+package ua.goit.jdbc.controller;
 
 
 

@@ -15,8 +15,8 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
 
     private final DatabaseManagerConnector connector;
 
-    private static final String INSERT = "INSERT INTO developers (dev_id, first_name, last_name, birth_date, gender, salary)" +
-            " VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO developers (first_name, last_name, birth_date, gender, salary)" +
+            " VALUES (?, ?, ?, ?, ?)";
 
     private static final String UPDATE = "UPDATE developers SET first_name = ?, last_name = ?, birth_date = ?, gender = ?, " +
             "salary = ?  WHERE dev_id = ?";
@@ -54,12 +54,11 @@ public class DeveloperRepository implements Repository<DeveloperDao>{
     public DeveloperDao save(DeveloperDao developer) {
         try(Connection connection = connector.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT)) {
-            statement.setInt(1, developer.getDevId());
-            statement.setString(2, developer.getFirstName());
-            statement.setString(3, developer.getLastName());
-            statement.setDate(4, new Date(developer.getBirthDate().getTime()));
-            statement.setString(5, developer.getGender());
-            statement.setInt(6, developer.getSalary());
+            statement.setString(1, developer.getFirstName());
+            statement.setString(2, developer.getLastName());
+            statement.setDate(3, new Date(developer.getBirthDate().getTime()));
+            statement.setString(4, developer.getGender());
+            statement.setInt(5, developer.getSalary());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

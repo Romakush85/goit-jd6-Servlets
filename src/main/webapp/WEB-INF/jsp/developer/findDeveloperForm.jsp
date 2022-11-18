@@ -10,11 +10,13 @@
     </head>
     <body>
         <c:import url="${contextPath}/WEB-INF/jsp/navbar.jsp"/>
-        <div>
+        <div  style ="margin-top:10px;margin-left:10px;">
+            <h5>Find developer</h5>
             <form action="/developers" method="get">
-                   <label for="devId"> Developer ID <label>
-                   <input type="text" id="devId" name="devId"><br>
-                   <button type="submit">Find</button>
+                   <label for="devId"> Developer ID: <label>
+                   <input type="text" id="devId" name="devId">
+                   <button type="submit" name="command" value="find">Find</button>
+                   <button type="submit" name="command" value="findAll">Find all developers</button>
             </form>
         </div>
     </body>

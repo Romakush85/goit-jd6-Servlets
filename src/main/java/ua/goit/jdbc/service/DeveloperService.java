@@ -28,7 +28,10 @@ public class DeveloperService {
         if(developerRepository.findById(developerDto.getDevId()) != null) {
             DeveloperDao developerToUpdate = developerConverter.to(developerDto);
             developerRepository.update(developerToUpdate);
-            return true;
+            DeveloperDto updatedDeveloper = findById(developerDto.getDevId()).orElseGet(() -> {return null;});
+            if(developerDto.equals(updatedDeveloper)) {
+                return true;
+            } else {return false;}
         }
         return false;
     }
